@@ -3,6 +3,7 @@
 open System.IO
 open ReadableContent
 open Ionic.Zip
+open Utils
 
 let containerContent = """<?xml version="1.0"?>
        <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
@@ -38,7 +39,9 @@ let createZipFile directoryPath (zipFileName : string) =
     zipFile.AddDirectory(directoryPath)
     zipFile.Save(zipFileName)
 
-let getEpubName book = book.Title + ".epub"
+let getEpubName book = 
+    let book = removeForbiddenCharacters book.Title
+    book + ".epub"
 
 let buildEpub outputPath (book : Book) = 
     let contentPackageContent = contentPackageContent book.Title book.Author

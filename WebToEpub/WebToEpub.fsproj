@@ -55,6 +55,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Utils.fs" />
     <Compile Include="ReadableContent.fs" />
     <Compile Include="EpubBuilder.fs" />
     <Compile Include="Program.fs" />
