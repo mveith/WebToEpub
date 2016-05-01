@@ -2,3 +2,4 @@ source https://nuget.org/api/v2
 
 nuget DotNetZip
 nuget FSharp.Data
+nuget Suave
