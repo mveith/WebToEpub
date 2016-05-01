@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>2c21e379-1592-4cd3-b68a-feb835795820</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>WebToEpub</RootNamespace>
     <AssemblyName>WebToEpub</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -24,7 +24,7 @@
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DocumentationFile>bin\Debug\WebToEpub.XML</DocumentationFile>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -58,8 +58,6 @@
     <Compile Include="Utils.fs" />
     <Compile Include="ReadableContent.fs" />
     <Compile Include="EpubBuilder.fs" />
-    <Compile Include="Program.fs" />
-    <None Include="App.config" />
     <Content Include="ReadabilityAuthenticationToken.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

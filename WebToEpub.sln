@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebToEpub", "WebToEpub\WebT
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebToEpub.Website", "WebToEpub.Website\WebToEpub.Website.fsproj", "{27AA1710-05A5-40D8-8D0A-73574AA81641}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebToEpub.ConsoleApp", "WebToEpub.ConsoleApp\WebToEpub.ConsoleApp.fsproj", "{196ED1F0-B948-4093-9B86-D81E96ACDBF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{27AA1710-05A5-40D8-8D0A-73574AA81641}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27AA1710-05A5-40D8-8D0A-73574AA81641}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27AA1710-05A5-40D8-8D0A-73574AA81641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{196ED1F0-B948-4093-9B86-D81E96ACDBF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{196ED1F0-B948-4093-9B86-D81E96ACDBF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{196ED1F0-B948-4093-9B86-D81E96ACDBF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{196ED1F0-B948-4093-9B86-D81E96ACDBF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
