@@ -50,6 +50,9 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="App.fs" />
     <None Include="App.config" />
+    <None Include="Index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
