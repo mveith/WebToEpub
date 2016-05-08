@@ -4,6 +4,11 @@ open System.IO
 open ReadableContent
 open Ionic.Zip
 open Utils
+open System.Text
+
+type Epub = 
+    { Name : string
+      Data : byte [] }
 
 let containerContent = """<?xml version="1.0"?>
        <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
@@ -33,29 +38,19 @@ let mainContent = sprintf """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict
                     <head></head>
                     <body>%s</body>
                 </html>"""
-
-let createZipFile directoryPath (zipFileName : string) = 
-    use zipFile = new ZipFile()
-    zipFile.AddDirectory(directoryPath)
-    zipFile.Save(zipFileName)
-
+                
 let getEpubName book = 
     let book = removeForbiddenCharacters book.Title
     book + ".epub"
 
-let buildEpub outputPath (book : Book) = 
-    let contentPackageContent = contentPackageContent book.Title book.Author
-    let mainContent = mainContent book.Content
-    let metadataPath = Path.Combine(outputPath, "META-INF")
-    let containerFileName = Path.Combine(metadataPath, "container.xml")
-    let rootFileName = Path.Combine(outputPath, "content.opf")
-    let mimeTypeFileName = Path.Combine(outputPath, "mimetype")
-    let contentFileName = Path.Combine(outputPath, "content.xhtml")
-    Directory.CreateDirectory(outputPath)
-    Directory.CreateDirectory(metadataPath)
-    File.WriteAllText(containerFileName, containerContent)
-    File.WriteAllText(rootFileName, contentPackageContent)
-    File.WriteAllText(mimeTypeFileName, "application/epub+zip")
-    File.WriteAllText(contentFileName, mainContent)
-    createZipFile outputPath (getEpubName book)
-    Directory.Delete(outputPath, true)
+let buildEpub (book : Book) = 
+    use zipFile = new ZipFile(System.Text.Encoding.UTF8)
+    zipFile.AddEntry(Path.Combine("META-INF", "container.xml"), containerContent, Encoding.UTF8)
+    zipFile.AddEntry("content.opf", contentPackageContent book.Title book.Author, Encoding.UTF8)
+    zipFile.AddEntry("mimetype", "application/epub+zip", Encoding.UTF8)
+    zipFile.AddEntry("content.xhtml", mainContent book.Content, Encoding.UTF8)
+    use outputStream = new MemoryStream()
+    zipFile.Save(outputStream)
+    let bytes = outputStream.ToArray()
+    { Data = bytes
+      Name = getEpubName book }

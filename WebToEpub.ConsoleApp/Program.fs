@@ -1,16 +1,15 @@
-﻿module Program
-
-open ReadableContent
+﻿open ReadableContent
 open EpubBuilder
 
 [<EntryPoint>]
 let main argv = 
-    let getOutputPath() = System.Guid.NewGuid().ToString()
+    let saveToFile (epub : Epub) = System.IO.File.WriteAllBytes(epub.Name, epub.Data)
     
     let buildEpub url = 
         url
         |> getBookFromUrl
-        |> buildEpub (getOutputPath())
-
-    argv |> Seq.iter buildEpub
+        |> buildEpub
+    argv
+    |> Seq.map buildEpub
+    |> Seq.iter saveToFile
     0
