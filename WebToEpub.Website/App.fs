@@ -2,6 +2,8 @@
 open Suave.Filters
 open Suave.Operators
 open Suave.Successful
+open ReadableContent
+open EpubBuilder
 
 let getIndexPage = 
     "Index.html"
@@ -12,8 +14,11 @@ let setAttachmentHeader attachmentFileName =
     Suave.Writers.setHeader "Content-Disposition" ("attachment; filename=" + attachmentFileName)
 
 let downloadEpub (webPageUri : string) = 
-    let (epubName, epubBytes) = ("test.epub", System.Text.Encoding.UTF8.GetBytes webPageUri)
-    setAttachmentHeader epubName >=> ok epubBytes
+    let epub = 
+        webPageUri
+        |> getBookFromUrl
+        |> buildEpub
+    setAttachmentHeader epub.Name >=> ok epub.Data
 
 let convert = 
     request (fun r -> 
