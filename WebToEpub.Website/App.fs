@@ -4,6 +4,7 @@ open Suave.Operators
 open Suave.Successful
 open ReadableContent
 open EpubBuilder
+open System.Net
 
 let getIndexPage = 
     "Index.html"
@@ -31,4 +32,6 @@ let webPart =
     choose [ GET >=> choose [ path "/" >=> getIndexPage
                               path "/convert" >=> convert ] ]
 
-startWebServer defaultConfig webPart
+// change default bindings to avoid problems with Docker ports accesibility
+let config = { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Any 8083us ] }
+startWebServer config webPart
