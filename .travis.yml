@@ -1,0 +1,15 @@
+language: csharp
+
+services:
+  - docker
+
+before_script:
+ - chmod +x build.sh
+
+script:
+ - ./build.sh BuildApp
+
+after_success:
+ - docker build -t mveith/webtoepub .
+ - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+ - docker push mveith/webtoepub
