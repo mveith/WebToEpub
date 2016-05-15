@@ -12,7 +12,8 @@ let getIndexPage =
     |> OK
 
 let setAttachmentHeader attachmentFileName = 
-    Suave.Writers.setHeader "Content-Disposition" ("attachment; filename=" + attachmentFileName)
+    let attachmentFileName = System.Uri.EscapeDataString attachmentFileName
+    Suave.Writers.setHeader "Content-Disposition" ("attachment; filename*=UTF-8''" + attachmentFileName)
 
 let downloadEpub (webPageUri : string) = 
     let epub = 
