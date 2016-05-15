@@ -11,4 +11,9 @@ if [ $exit_code -ne 0 ]; then
 	exit $exit_code
 fi
 
+for entry in *
+do
+  echo "$entry"
+done
+
 mono --runtime=v4.0 packages/FAKE/tools/FAKE.exe build.fsx -d:MONO $@
