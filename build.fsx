@@ -2,8 +2,12 @@
 #r @"./packages/FAKE/tools/FakeLib.dll"
 
 open Fake
+open System.IO
 
 RestorePackages()
+
+let apiKey = getBuildParam "apiKey"
+File.WriteAllText(@"./WebToEpub/ReadabilityAuthenticationToken.txt", apiKey)
 
 // Directories
 let buildAppDir = "./build/app/"

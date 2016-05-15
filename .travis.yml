@@ -9,7 +9,7 @@ before_script:
  - chmod +x build.sh
 
 script:
- - ./build.sh BuildApp
+ - ./build.sh BuildApp "$READABILITY_AUTHENTICATION_TOKEN"
 
 after_success:
  - docker build -t mveith/webtoepub .
