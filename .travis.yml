@@ -13,5 +13,5 @@ script:
 
 after_success:
  - docker build -t mveith/webtoepub .
- - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+ - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" -e="$DOCKER_EMAIL"
  - docker push mveith/webtoepub
