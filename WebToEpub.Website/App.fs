@@ -7,11 +7,6 @@ open ReadableContent
 open EpubBuilder
 open System.Net
 
-let getIndexPage = 
-    "Index.html"
-    |> System.IO.File.ReadAllText
-    |> OK
-
 let setAttachmentHeader attachmentFileName = 
     let attachmentFileName = System.Uri.EscapeDataString attachmentFileName
     Suave.Writers.setHeader "Content-Disposition" ("attachment; filename*=UTF-8''" + attachmentFileName)
@@ -31,7 +26,7 @@ let convert =
         | Choice2Of2 msg -> Suave.RequestErrors.BAD_REQUEST(sprintf "webPageUri: %s" msg))
 
 let webPart = 
-    choose [ GET >=> choose [ path "/" >=> getIndexPage
+    choose [ GET >=> choose [ path "/" >=> file "Index.html"
                               path "/convert" >=> convert
                               path "/style.css" >=> file "style.css" ] ]
 
