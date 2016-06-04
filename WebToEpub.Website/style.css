@@ -1,0 +1,71 @@
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #242424;
+    color: white;
+    font-family: "helvetica neue","Helvetica",arial,sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centeredContainer {
+    width: 960px;
+    margin-top: -15%;
+}
+
+.urlInput {
+    border-radius: 4px 0 0 4px;
+    border: none;
+    float: left;
+    width: 70%;
+    height: 60px;
+    font-size: 24px;
+    padding: 10px;
+}
+
+.convertButton {
+    height: 80px;
+    font-size: 30px;
+    float: left;
+    border-radius: 0 4px 4px 0;
+    border: none;
+    background-color: #25a565;
+    color: white;
+    width: 200px;
+    padding: 0px;
+}
+
+@media (max-width: 960px) {
+
+    .centeredContainer {
+        width: 480px;
+    }
+
+    .urlInput {
+        width: 100%;
+        padding: 0px;
+        border-radius: 4px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .convertButton {
+        width: 100px;
+        margin: 5px 190px 5px 190px;
+        font-size: 16px;
+        border-radius: 4px;
+        height: 40px;
+    }
+}

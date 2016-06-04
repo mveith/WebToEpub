@@ -1,5 +1,6 @@
 ﻿open Suave
 open Suave.Filters
+open Suave.Files
 open Suave.Operators
 open Suave.Successful
 open ReadableContent
@@ -31,8 +32,10 @@ let convert =
 
 let webPart = 
     choose [ GET >=> choose [ path "/" >=> getIndexPage
-                              path "/convert" >=> convert ] ]
+                              path "/convert" >=> convert
+                              path "/style.css" >=> file "style.css" ] ]
 
 // change default bindings to avoid problems with Docker ports accesibility
 let config = { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Any 8083us ] }
+
 startWebServer config webPart
