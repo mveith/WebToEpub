@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Web to EPUB</title>
     <link href="style.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
@@ -11,11 +12,27 @@
             <h1>Convert web to EPUB</h1>
             <div>
                 <form>
-                    <input class="urlInput" type="text" name="webPageUri" placeholder="Web page url..." />
-                    <input class="convertButton" type="submit" value="EPUB" formaction="/convert" />
+                    <input id="urlInput" type="text" name="webPageUri" placeholder="Web page url..." />
+                    <input id="convertButton" type="submit" value="EPUB" />
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        function resetForm() {
+            $("#urlInput").val("");
+        }
+
+        function downloadEpub() {
+            var url = "/convert?webPageUri=" + $("#urlInput").val();
+            window.location.href = url;
+        }
+
+        $("#convertButton").click(function (event) {
+            downloadEpub();
+            resetForm();
+            event.preventDefault();
+        });
+    </script>
 </body>
 </html>
