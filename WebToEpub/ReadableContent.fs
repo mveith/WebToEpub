@@ -21,6 +21,14 @@ let getAuthor (article : ReadableContent.Root) =
     if String.IsNullOrEmpty(article.Author) then article.Domain
     else article.Author
 
+let canGetBookFromUrl url = 
+    let apiUrl = parserApiUrl url authenticationToken
+    try
+        let result = Http.RequestString apiUrl
+        true
+    with 
+        | :? System.Net.WebException as ex -> false
+
 let getBookFromUrl url = 
     let readableContent = getReadableContent url
     { Content = readableContent.Content
