@@ -15,6 +15,7 @@
                     <input id="urlInput" type="text" name="webPageUri" placeholder="Web page url..." />
                     <input id="convertButton" type="submit" value="EPUB" />
                 </form>
+                <p id="validationError">Validation error</p>
             </div>
         </div>
     </div>
@@ -28,9 +29,28 @@
             window.location.href = url;
         }
 
+        function showValidationError(errorMessage) {
+            $("#validationError").text(errorMessage).css("opacity", 1).animate({ opacity: 0 }, 2000);
+        }
+
         $("#convertButton").click(function (event) {
-            downloadEpub();
-            resetForm();
+            var webPageUri = $("#urlInput").val();
+            if (webPageUri === "") {
+                showValidationError("Web page url cannot be empty.");
+                return false;
+            }
+
+            var canConvertUrl = "/canConvert?webPageUri=" + webPageUri;
+            $.ajax(canConvertUrl).done(function (data, textStatus, jqXHR) {
+                if (data === "OK") {
+                    downloadEpub();
+                    resetForm();
+                }
+                else {
+                    showValidationError("Url cannot be converted.");
+                }
+            });
+
             event.preventDefault();
         });
     </script>

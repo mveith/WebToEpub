@@ -22,7 +22,7 @@ h1 {
 
 .centeredContainer {
     width: 960px;
-    margin-top: -15%;
+    margin-top: -10%;
 }
 
 #urlInput {
@@ -47,6 +47,15 @@ h1 {
     padding: 0px;
 }
 
+#validationError {
+    clear: both;
+    text-align: center;
+    font-size: 150%;
+    padding: 10px;
+    color: rgb(255,0,0);
+    opacity: 0;
+}
+
 @media (max-width: 960px) {
 
     .centeredContainer {
@@ -67,5 +76,10 @@ h1 {
         font-size: 16px;
         border-radius: 4px;
         height: 40px;
+    }
+
+    #validationError {
+        font-size: 110%;
+        padding: 5px;
     }
 }
