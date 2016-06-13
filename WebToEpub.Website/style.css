@@ -6,7 +6,8 @@ html, body {
 body {
     background-color: #242424;
     color: white;
-    font-family: "helvetica neue","Helvetica",arial,sans-serif;
+    font-family: "helvetica neue", "Helvetica", arial, sans-serif;
+    overflow-y: hidden;
 }
 
 h1 {
@@ -22,17 +23,28 @@ h1 {
 
 .centeredContainer {
     width: 960px;
-    margin-top: -10%;
+    margin-top: -200px;
 }
 
 #urlInput {
     border-radius: 4px 0 0 4px;
-    border: none;
     float: left;
-    width: 70%;
+    width: 760px;
     height: 60px;
     font-size: 24px;
     padding: 10px;
+    border: none;
+}
+
+#contentInput {
+    padding: 0px;
+    font-size: 16px;
+    margin: 5px 0px;
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    resize: none    ;
+    height: 400px;
 }
 
 #convertButton {
@@ -43,7 +55,7 @@ h1 {
     border: none;
     background-color: #25a565;
     color: white;
-    width: 200px;
+    width: 180px;
     padding: 0px;
 }
 
@@ -51,9 +63,10 @@ h1 {
     clear: both;
     text-align: center;
     font-size: 150%;
-    padding: 10px;
-    color: rgb(255,0,0);
-    opacity: 0;
+    padding: 3px;
+    color: rgb(255, 0, 0);
+    display: none;
+    margin: 0px;
 }
 
 @media (max-width: 960px) {

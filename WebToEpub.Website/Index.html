@@ -1,58 +1,60 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Web to EPUB</title>
-    <link href="style.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <link href="style.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="centeredContainer">
-            <h1>Convert web to EPUB</h1>
-            <div>
-                <form>
-                    <input id="urlInput" type="text" name="webPageUri" placeholder="Web page url..." />
-                    <input id="convertButton" type="submit" value="EPUB" />
-                </form>
+<div class="container">
+    <div class="centeredContainer">
+        <h1>Convert web to EPUB</h1>
+        <div>
+            <form>
+                <input id="urlInput" type="text" name="webPageUri" placeholder="Web page url..." autofocus/>
+                <input id="convertButton" type="submit" value="EPUB"/>
                 <p id="validationError">Validation error</p>
-            </div>
+                <textarea id="contentInput" name="fullContent" placeholder="Full web page content..."></textarea>
+            </form>
         </div>
     </div>
-    <script>
-        function resetForm() {
-            $("#urlInput").val("");
+</div>
+<script>
+    function resetForm() {
+        $("#urlInput").val("");
+    }
+
+    function downloadEpub() {
+        var url = "/convert?webPageUri=" + $("#urlInput").val();
+        window.location.href = url;
+    }
+
+    function showValidationError(errorMessage) {
+        $("#validationError").text(errorMessage).show().fadeOut(2000);
+    }
+
+    $("#convertButton").click(function (event) {
+        var webPageUri = $("#urlInput").val();
+        if (webPageUri === "") {
+            showValidationError("Web page url cannot be empty.");
+            return false;
         }
 
-        function downloadEpub() {
-            var url = "/convert?webPageUri=" + $("#urlInput").val();
-            window.location.href = url;
-        }
-
-        function showValidationError(errorMessage) {
-            $("#validationError").text(errorMessage).css("opacity", 1).animate({ opacity: 0 }, 2000);
-        }
-
-        $("#convertButton").click(function (event) {
-            var webPageUri = $("#urlInput").val();
-            if (webPageUri === "") {
-                showValidationError("Web page url cannot be empty.");
-                return false;
+        var canConvertUrl = "/canConvert?webPageUri=" + webPageUri;
+        $.ajax(canConvertUrl).done(function (data, textStatus, jqXHR) {
+            if (data === "OK") {
+                downloadEpub();
+                resetForm();
             }
-
-            var canConvertUrl = "/canConvert?webPageUri=" + webPageUri;
-            $.ajax(canConvertUrl).done(function (data, textStatus, jqXHR) {
-                if (data === "OK") {
-                    downloadEpub();
-                    resetForm();
-                }
-                else {
-                    showValidationError("Url cannot be converted.");
-                }
-            });
-
-            event.preventDefault();
+            else {
+                showValidationError("Url cannot be converted.");
+            }
         });
-    </script>
+
+        event.preventDefault();
+    });
+</script>
 </body>
 </html>
