@@ -43,8 +43,9 @@ h1 {
     border-radius: 4px;
     border: none;
     width: 100%;
-    resize: none    ;
+    resize: none;
     height: 400px;
+    display: none;
 }
 
 #convertButton {
@@ -67,6 +68,17 @@ h1 {
     color: rgb(255, 0, 0);
     display: none;
     margin: 0px;
+}
+
+#customContentAnchor {
+    display: block;
+    clear: both;
+    text-align: center;
+    font-size: 90%;
+    padding: 3px;
+    color: rgb(255, 255, 255);
+    margin: 0px;
+    text-decoration: none;
 }
 
 @media (max-width: 960px) {

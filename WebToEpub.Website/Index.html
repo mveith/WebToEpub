@@ -16,6 +16,7 @@
                 <input id="urlInput" type="text" name="webPageUri" placeholder="Web page url..." autofocus/>
                 <input id="convertButton" type="submit" value="EPUB"/>
                 <p id="validationError">Validation error</p>
+                <a id="customContentAnchor" href="#">Add custom content</a>
                 <textarea id="contentInput" name="fullContent" placeholder="Full web page content..."></textarea>
             </form>
         </div>
@@ -24,6 +25,8 @@
 <script>
     function resetForm() {
         $("#urlInput").val("");
+        $("#contentInput").val("");
+        changeCustomContentVisibility(false);
     }
 
     function downloadEpub() {
@@ -43,7 +46,7 @@
         }
 
         var canConvertUrl = "/canConvert?webPageUri=" + webPageUri;
-        $.ajax(canConvertUrl).done(function (data, textStatus, jqXHR) {
+        $.ajax(canConvertUrl).done(function (data) {
             if (data === "OK") {
                 downloadEpub();
                 resetForm();
@@ -54,6 +57,21 @@
         });
 
         event.preventDefault();
+    });
+
+    function changeCustomContentVisibility(show) {
+        if (show) {
+            $("#customContentAnchor").hide();
+            $("#contentInput").show();
+        }
+        else {
+            $("#customContentAnchor").show();
+            $("#contentInput").hide();
+        }
+    }
+
+    $("#customContentAnchor").click(function (event) {
+        changeCustomContentVisibility(true);
     });
 </script>
 </body>
