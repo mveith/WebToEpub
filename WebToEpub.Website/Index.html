@@ -30,8 +30,15 @@
     }
 
     function downloadEpub() {
-        var url = "/convert?webPageUri=" + $("#urlInput").val();
-        window.location.href = url;
+        var convertRequestSettings = {
+            method: "POST",
+            url: "/convert?webPageUri=" + $("#urlInput").val()
+        };
+
+        $.ajax(convertRequestSettings).done(function (fileName) {
+            var url = "/download?epubName=" + fileName;
+            window.location.href = url;
+        });
     }
 
     function showValidationError(errorMessage) {

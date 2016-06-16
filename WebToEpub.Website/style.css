@@ -46,6 +46,7 @@ h1 {
     resize: none;
     height: 400px;
     display: none;
+    font-family: inherit;
 }
 
 #convertButton {
