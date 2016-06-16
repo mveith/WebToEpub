@@ -7,6 +7,7 @@ open ReadableContent
 open EpubBuilder
 open System.Net
 open System.IO
+open Utils
 
 let setAttachmentHeader attachmentFileName = 
     let attachmentFileName = System.Uri.EscapeDataString attachmentFileName
@@ -18,36 +19,25 @@ let saveEpub (webPageUri : string) =
         |> getBookFromUrl
         |> buildEpub
     File.WriteAllBytes(epub.Name, epub.Data)
-    epub.Name
+    OK epub.Name
 
 let convert = 
     request (fun r -> 
-        let queryChoice = r.queryParam "webPageUri"
-        match queryChoice with
-        | Choice1Of2 webPageUri -> 
-            webPageUri
-            |> saveEpub
-            |> OK
-        | Choice2Of2 msg -> Suave.RequestErrors.BAD_REQUEST(sprintf "webPageUri: %s" msg))
+        let badRequest msg = badRequest "webPageUri" msg
+        processParameter r "webPageUri" saveEpub badRequest)
 
 let download = 
     request (fun r -> 
-        let queryChoice = r.queryParam "epubName"
-        match queryChoice with
-        | Choice1Of2 epubName -> setAttachmentHeader epubName >=> ok (File.ReadAllBytes epubName)
-        | Choice2Of2 msg -> Suave.RequestErrors.BAD_REQUEST(sprintf "epubName: %s" msg))
+        let downloadEpub epubName = setAttachmentHeader epubName >=> ok (File.ReadAllBytes epubName)
+        let badRequest msg = badRequest "epubName" msg
+        processParameter r "epubName" downloadEpub badRequest)
 
 let canConvert = 
     request (fun r -> 
-        let queryChoice = r.queryParam "webPageUri"
-        
-        let canConvertValue = 
-            match queryChoice with
-            | Choice1Of2 webPageUri -> 
-                if canGetBookFromUrl webPageUri then "OK"
-                else "KO"
-            | Choice2Of2 msg -> "KO"
-        OK canConvertValue)
+        let canConvert webPageUri = 
+            if canGetBookFromUrl webPageUri then "OK"
+            else "KO"
+        processParameter r "webPageUri" canConvert (fun _ -> "KO") |> OK)
 
 let webPart = 
     choose [ GET >=> choose [ path "/" >=> file "Index.html"
