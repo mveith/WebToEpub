@@ -13,16 +13,25 @@ let setAttachmentHeader attachmentFileName =
     let attachmentFileName = System.Uri.EscapeDataString attachmentFileName
     Suave.Writers.setHeader "Content-Disposition" ("attachment; filename*=UTF-8''" + attachmentFileName)
 
-let saveEpub (webPageUri : string) = 
+let saveEpub (webPageUri : string) (customContent : string option) = 
     let epub = 
         webPageUri
         |> getBookFromUrl
+        |> setCustomContentIfExists customContent
         |> buildEpub
     File.WriteAllBytes(epub.Name, epub.Data)
     OK epub.Name
 
 let convert = 
     request (fun r -> 
+        let customContentInput = r.formData "content"
+        
+        let customContent = 
+            match customContentInput with
+            | Choice1Of2 value -> Some value
+            | Choice2Of2 msg -> None
+        
+        let saveEpub webPageUri = saveEpub webPageUri customContent
         let badRequest msg = badRequest "webPageUri" msg
         processParameter r "webPageUri" saveEpub badRequest)
 

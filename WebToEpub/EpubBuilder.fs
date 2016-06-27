@@ -43,6 +43,11 @@ let getEpubName book =
     let book = removeForbiddenCharacters book.Title
     book + ".epub"
 
+let setCustomContentIfExists customContent book= 
+    match customContent with
+    | Some content -> { book with Content = content }
+    | None -> book
+    
 let buildEpub (book : Book) = 
     use zipFile = new ZipFile(System.Text.Encoding.UTF8)
     zipFile.AddEntry(Path.Combine("META-INF", "container.xml"), containerContent, Encoding.UTF8)
