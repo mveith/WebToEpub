@@ -30,19 +30,15 @@
     }
 
     function downloadEpub() {
-
-        var content;
-        if ($("#contentInput").is(":visible")) {
-            content = $("#contentInput").val();
-        }
-
         var convertRequestSettings = {
             method: "POST",
             url: "/convert?webPageUri=" + $("#urlInput").val()
         };
 
-        if (content != null) {
-            convertRequestSettings.data = "content=" + encodeURI(content);
+        if ($("#contentInput").is(":visible")) {
+            convertRequestSettings.data = {
+                "content": $("#contentInput").val()
+            };
         }
 
         $.ajax(convertRequestSettings).done(function (fileName) {
