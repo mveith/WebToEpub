@@ -8,7 +8,6 @@ open EpubBuilder
 open System.Net
 open System.IO
 open Utils
-open CleanupTimer
 
 let setAttachmentHeader attachmentFileName = 
     let attachmentFileName = System.Uri.EscapeDataString attachmentFileName
@@ -59,5 +58,4 @@ let webPart =
 // change default bindings to avoid problems with Docker ports accesibility
 let config = { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Any 8083us ] }
 
-startCleanupTimer()
 startWebServer config webPart
