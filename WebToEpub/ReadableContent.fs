@@ -3,28 +3,30 @@
 open FSharp.Data
 open System
 
-type ReadableContent = JsonProvider< """ { "content":"content", "url":"url", "excerpt":"excerpt", "title":"title", "author":"author", "domain":"domain" } """ >
+type ReadableContent = JsonProvider< """ {  "title": "title",  "content": "content",  "date_published": "2016-09-30T07:00:12.000Z",  "lead_image_url": "image_url",  "dek": "dek",  "url": "url",  "domain": "domain",  "excerpt": "excerpt",  "word_count": 123,  "direction": "ltr",  "total_pages": 1,  "rendered_pages": 1,  "next_page_url": null } """ >
 
 type Book = 
     { Content : string
       Title : string
       Author : string }
 
-let parserApiUrl = sprintf "https://www.readability.com/api/content/v1/parser?url=%s&token=%s"
 let authenticationToken = System.IO.File.ReadAllText "ReadabilityAuthenticationToken.txt"
 
+let parserApiRequest url key=
+    let apiUrl = sprintf "https://mercury.postlight.com/parser?url=%s" url
+    let headers = [("x-api-key", key) ]
+    Http.RequestString (apiUrl, headers=headers)
+    
+
 let getReadableContent url = 
-    let apiUrl = parserApiUrl url authenticationToken
-    Http.RequestString apiUrl |> ReadableContent.Parse
+    parserApiRequest url authenticationToken|> ReadableContent.Parse
 
 let getAuthor (article : ReadableContent.Root) = 
-    if String.IsNullOrEmpty(article.Author) then article.Domain
-    else article.Author
+    article.Domain
 
 let canGetBookFromUrl url = 
-    let apiUrl = parserApiUrl url authenticationToken
     try
-        let result = Http.RequestString apiUrl
+        let result = parserApiRequest url authenticationToken
         true
     with 
         | :? System.Net.WebException as ex -> false
